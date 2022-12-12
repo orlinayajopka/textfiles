@@ -1,0 +1,36 @@
+
+func main() {
+	//text := "следующая станция\nиз-\nмай-\nловская\nмы оба из мая\nя майский кот\nты первомайская"
+	text := "ABC\nABC\nABC"
+	file, err := os.Create("aboba.txt")
+
+	if err != nil {
+		fmt.Println("Unable to create file:", err)
+		os.Exit(1)
+	}
+	defer file.Close()
+	file.WriteString(text)
+
+	fmt.Println("Done.")
+	file1, err1 := os.Open("aboba.txt")
+	if err != nil {
+		fmt.Println(err1)
+		os.Exit(1)
+	}
+	defer file1.Close()
+	data := make([]byte, 64)
+	for {
+		n, err := file1.Read(data)
+		if err == io.EOF { // если конец файла
+			break // выходим из цикла
+		}
+		for i := 0; i < n; i++ {
+			fmt.Print(string(data[i]), "\n")
+		}
+		//fmt.Print(strings.Split(string(data[:n]), ""))
+	}
+
+	/*err := os.Remove("aboba.txt")
+	if err != nil {
+		panic(err)
+	}
